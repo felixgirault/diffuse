@@ -46,7 +46,7 @@ class Diffuse {
 				self::url => 'u'
 			)
 		),
-		'googlePlus' => array(
+		'google' => array(
 			'url' => 'https://plus.google.com/share',
 			'map' => array(
 				self::url => 'url',
