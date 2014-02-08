@@ -82,10 +82,13 @@ class Diffuse {
 
 
 	/**
-	 *	Provides shortcuts to url( ) methods:
+	 *	Provides shortcuts to the url( ) method:
 	 *
+	 *	@code
 	 *	$Diffuse->url( 'facebook', 'http://example.com/page', array( ));
+	 *	// or
 	 *	$Diffuse->facebook( 'http://example.com/page', array( ));
+	 *	@endcode
 	 */
 
 	public function __call( $method, array $arguments = array( )) {
