@@ -102,13 +102,27 @@ class Diffuse {
 
 	/**
 	 *	Builds and returns a sharing URL for the given service.
+	 *	There is two ways to call this method:
+	 *
+	 *	@code
+	 *	$Diffuse->url( 'facebook', 'http://example.com/page', array( ));
+	 *	// or
+	 *	$Diffuse->url( 'facebook', array( Diffuse::url => 'http://example.com/page' ));
+	 *	@endcode
 	 *
 	 *	@param string $service Name of the service.
+	 *	@param array $url URL to share, or parameters.
 	 *	@param array $params Parameters.
-	 *	@return string Link.
+	 *	@return string URL.
 	 */
 
-	public function url( $service, array $params = array( )) {
+	public function url( $service, $url, array $params = array( )) {
+
+		if ( is_array( $url )) {
+			$params = $url;
+		} else {
+			$params[ self::url ] = $url;
+		}
 
 		$config = $this->_service( $service );
 		$mapped = array( );
