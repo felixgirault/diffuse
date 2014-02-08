@@ -56,6 +56,20 @@ class DiffuseTest extends PHPUnit_Framework_TestCase {
 	 *
 	 */
 
+	public function testCall( ) {
+
+		$this->assertEquals(
+			$this->Diffuse->url( 'service', array( Diffuse::url => 'url' )),
+			$this->Diffuse->service( array( Diffuse::url => 'url' ))
+		);
+	}
+
+
+
+	/**
+	 *
+	 */
+
 	public function testUrl( ) {
 
 		$this->assertEquals(

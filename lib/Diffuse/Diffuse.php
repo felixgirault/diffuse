@@ -82,6 +82,22 @@ class Diffuse {
 
 
 	/**
+	 *	Provides shortcuts to url( ) methods:
+	 *
+	 *	$Diffuse->url( 'facebook', 'http://example.com/page', array( ));
+	 *	$Diffuse->facebook( 'http://example.com/page', array( ));
+	 */
+
+	public function __call( $method, array $arguments = array( )) {
+
+		array_unshift( $arguments, $method );
+
+		return call_user_func_array( array( $this, 'url' ), $arguments );
+	}
+
+
+
+	/**
 	 *	Builds and returns a sharing URL for the given service.
 	 *
 	 *	@param string $service Name of the service.
