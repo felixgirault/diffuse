@@ -59,8 +59,8 @@ class DiffuseTest extends PHPUnit_Framework_TestCase {
 	public function testCall( ) {
 
 		$this->assertEquals(
-			$this->Diffuse->url( 'service', array( Diffuse::url => 'url' )),
-			$this->Diffuse->service( array( Diffuse::url => 'url' ))
+			$this->Diffuse->url( 'service', 'url' ),
+			$this->Diffuse->service( 'url' )
 		);
 	}
 
@@ -71,6 +71,14 @@ class DiffuseTest extends PHPUnit_Framework_TestCase {
 	 */
 
 	public function testUrl( ) {
+
+		$this->assertEquals(
+			'https://www.service.com/share?url=url&description=text',
+			$this->Diffuse->url( 'service', 'url', array(
+				Diffuse::text => 'text',
+				Diffuse::via => 'via'
+			))
+		);
 
 		$this->assertEquals(
 			'https://www.service.com/share?url=url&description=text',
