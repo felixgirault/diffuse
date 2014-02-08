@@ -85,15 +85,19 @@ class Diffuse {
 	 *	Provides shortcuts to the url( ) method:
 	 *
 	 *	@code
-	 *	$Diffuse->url( 'facebook', 'http://example.com/page', array( ));
+	 *	$Diffuse->url( 'facebook', 'http://example.com/page' );
 	 *	// or
-	 *	$Diffuse->facebook( 'http://example.com/page', array( ));
+	 *	$Diffuse->facebook( 'http://example.com/page' );
 	 *	@endcode
+	 *
+	 *	@param string $service Service name.
+	 *	@param array $arguments Arguments.
+	 *	@return string URL.
 	 */
 
-	public function __call( $method, array $arguments = array( )) {
+	public function __call( $service, array $arguments = array( )) {
 
-		array_unshift( $arguments, $method );
+		array_unshift( $arguments, $service );
 
 		return call_user_func_array( array( $this, 'url' ), $arguments );
 	}
@@ -105,23 +109,25 @@ class Diffuse {
 	 *	There is two ways to call this method:
 	 *
 	 *	@code
-	 *	$Diffuse->url( 'facebook', 'http://example.com/page', array( ));
+	 *	$Diffuse->url( 'facebook', 'http://example.com/page' );
 	 *	// or
-	 *	$Diffuse->url( 'facebook', array( Diffuse::url => 'http://example.com/page' ));
+	 *	$Diffuse->url( 'facebook', array(
+	 *		Diffuse::url => 'http://example.com/page',
+	 *		Diffuse::text => 'Lorem ipsum dolor sit amet'
+	 *	));
 	 *	@endcode
 	 *
 	 *	@param string $service Name of the service.
-	 *	@param array $url URL to share, or parameters.
-	 *	@param array $params Parameters.
+	 *	@param array|string $params Parameters, or URL to share.
 	 *	@return string URL.
 	 */
 
-	public function url( $service, $url, array $params = array( )) {
+	public function url( $service, $params = array( )) {
 
-		if ( is_array( $url )) {
-			$params = $url;
-		} else {
-			$params[ self::url ] = $url;
+		if ( is_string( $params )) {
+			$params = array(
+				self::url => $params
+			);
 		}
 
 		$config = $this->_service( $service );
