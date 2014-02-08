@@ -32,7 +32,10 @@ class DiffuseTest extends PHPUnit_Framework_TestCase {
 	public $services = array(
 		'service' => array(
 			'url' => 'https://www.service.com/share',
-			'urlParam' => 'url'
+			'map' => array(
+				Diffuse::url => 'url',
+				Diffuse::text => 'description'
+			)
 		)
 	);
 
@@ -56,8 +59,12 @@ class DiffuseTest extends PHPUnit_Framework_TestCase {
 	public function testUrl( ) {
 
 		$this->assertEquals(
-			'https://www.service.com/share?url=URL',
-			$this->Diffuse->link( 'service', 'URL' )
+			'https://www.service.com/share?url=url&description=text',
+			$this->Diffuse->url( 'service', array(
+				Diffuse::url => 'url',
+				Diffuse::text => 'text',
+				Diffuse::via => 'via'
+			))
 		);
 	}
 }

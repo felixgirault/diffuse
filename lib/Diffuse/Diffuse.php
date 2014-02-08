@@ -20,6 +20,20 @@ use Exception;
 class Diffuse {
 
 	/**
+	 *
+	 */
+
+	const url = 'url';
+	const text = 'text';
+	const via = 'via';
+	const reply = 'reply';
+	const tags = 'tags';
+	const related = 'related';
+	const lang = 'lang';
+
+
+
+	/**
 	 *	Services configuration.
 	 *
 	 *	@var array
@@ -28,15 +42,27 @@ class Diffuse {
 	protected $_services = array(
 		'facebook' => array(
 			'url' => 'https://www.facebook.com/sharer/sharer.php',
-			'urlParam' => 'u'
+			'map' => array(
+				self::url => 'u'
+			)
 		),
-		'google-plus' => array(
+		'googlePlus' => array(
 			'url' => 'https://plus.google.com/share',
-			'urlParam' => 'url'
+			'map' => array(
+				self::url => 'url',
+				self::lang => 'hl'
+			)
 		),
 		'twitter' => array(
 			'url' => 'http://twitter.com/intent/tweet',
-			'urlParam' => 'url'
+			'map' => array(
+				self::url => 'url',
+				self::text => 'text',
+				self::via => 'via',
+				self::reply => 'in_reply_to',
+				self::tags => 'hashtags',
+				self::related => 'related'
+			)
 		)
 	);
 
@@ -58,20 +84,25 @@ class Diffuse {
 	/**
 	 *	Builds and returns a sharing URL for the given service.
 	 *
-	 *	@param string $serviceName Name of the service.
-	 *	@param string $url URL to share.
-	 *	@param array $params Additionnal parameters.
+	 *	@param string $service Name of the service.
+	 *	@param array $params Parameters.
 	 *	@return string Link.
 	 */
 
-	public function url( $serviceName, $url, array $params = array( )) {
+	public function url( $service, array $params = array( )) {
 
-		$service = $this->_service( $serviceName );
+		$config = $this->_service( $service );
+		$mapped = array( );
 
-		$query = $params;
-		$query[ $service['urlParam']] = $url;
+		if ( isset( $config['map'])) {
+			foreach ( $config['map'] as $generic => $specific ) {
+				if ( isset( $params[ $generic ])) {
+					$mapped[ $specific ] = $params[ $generic ];
+				}
+			}
+		}
 
-		return $service['url'] . '?' . http_build_query( $query );
+		return $config['url'] . '?' . http_build_query( $mapped );
 	}
 
 
